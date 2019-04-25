@@ -70,7 +70,7 @@ SDK's and Libraries
 At this point the game should be playable.
 
 # For more information or questions
-- The steps in this file are condensed from the article found here: https://aws.amazon.com/blogs/gametech/
+- The steps in this file are condensed from the article found here: https://aws.amazon.com/blogs/gametech/creating-servers-for-multiplayer-mobile-games-with-amazon-gamelift/
 - Please contact gametech@amazon.com for any comments or requests regarding this content
 
 ## License Summary
