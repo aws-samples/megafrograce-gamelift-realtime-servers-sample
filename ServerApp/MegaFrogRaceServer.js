@@ -100,7 +100,9 @@ function StopGame() {
     {
         // processEnding will stop this instance of the game running
         // and will tell the game session to terminate
-        session.processEnding();
+        const outcome = await session.processEnding();
+        logger.info("Completed process ending with: " + outcome);
+        process.exit(0);
     }
 }
 
