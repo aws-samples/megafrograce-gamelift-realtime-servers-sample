@@ -55,9 +55,6 @@ SDK's and Libraries
     - Google.Protobuf.dll
     - Log4net.dll
     - SuperSocket.ClientEngine.dll
-    - SuperSocket.Common.dll
-    - SuperSocket.Facility.dll
-    - SuperSocket.SocketBase.dll
     - WebSocket4Net.dll
 4. Import the AWS Lambda package from the AWS Mobile SDK for Unity in to the project
 5. Add the Demigiant DOTween library to the project follwing the instructions found at http://dotween.demigiant.com/getstarted.php
