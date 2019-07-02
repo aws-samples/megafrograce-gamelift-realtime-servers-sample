@@ -1,8 +1,9 @@
-﻿// Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 using UnityEngine;
 using RTSGame;
 using Aws.GameLift.Realtime.Event;
@@ -45,6 +46,9 @@ public class RTSClient : MonoBehaviour
     const int SCENE_READY_OP_CODE = 200;
     const int HOP_OP_CODE = 201;
 
+    // Used to parse server's data
+    private CultureInfo _serverCulture = CultureInfo.CreateSpecificCulture("en-US");
+    
     // reference to the game controller which will render the game state
     public GameController GameController;
 
@@ -331,7 +335,7 @@ public class RTSClient : MonoBehaviour
             case START_COUNTDOWN_OP_CODE:
                 {
                     float serverHopTime = 0.0f;
-                    if (float.TryParse(data, out serverHopTime))
+                    if (float.TryParse(data, NumberStyles.Number, _serverCulture, out serverHopTime))
                     {
                         _hopTime = serverHopTime;
                     }
@@ -352,7 +356,7 @@ public class RTSClient : MonoBehaviour
                     {
                         Debug.LogWarning("Unable to parse logicalPlayer!");
                     }
-                    if(!float.TryParse(parts[1], out distance))
+                    if(!float.TryParse(parts[1], NumberStyles.Number, _serverCulture, out distance))
                     {
                         Debug.LogWarning("Unable to parse distance!");
                     }
