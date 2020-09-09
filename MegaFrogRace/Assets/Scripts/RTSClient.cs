@@ -16,6 +16,7 @@ using Amazon;
 using System.Text;
 using System.Net.NetworkInformation;
 using System.Net;
+using System.Net.Sockets;
 using System.Linq;
 
 // This data structure is returned by the client service when a game match is found
@@ -153,22 +154,15 @@ public class RTSClient : MonoBehaviour
     private const int DEFAULT_TCP_PORT = 3001;
     private const int DEFAULT_UDP_PORT = 8921;
 
-    // given a starting and ending range, finds an open UDP port to use as the listening port
-    private int FindAvailableUDPPort(int firstPort, int lastPort)
+    // finds an open UDP port to use as the listening port
+    private static readonly IPEndPoint DefaultLoopbackEndpoint = new IPEndPoint(IpAddress.Loopback, port: 0);
+    private static int FindAvailableUDPPort()
     {
-        var UDPEndPoints = IPGlobalProperties.GetIPGlobalProperties().GetActiveUdpListeners();
-        List<int> usedPorts = new List<int>();
-        usedPorts.AddRange(from n in UDPEndPoints where n.Port >= firstPort && n.Port <= lastPort select n.Port);
-        usedPorts.Sort();
-        for(int testPort = firstPort; testPort <= lastPort; ++testPort)
-
+        using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
         {
-            if(!usedPorts.Contains(testPort))
-            {
-                return testPort;
-            }
+            socket.Bind(DefaultLoopbackEndpoint);
+            return ((IPEndPoint)socket.LocalEndPoint).Port;
         }
-        return -1;
     }
 
     // common code whether we are connecting to a GameLift hosted server or
@@ -186,7 +180,7 @@ public class RTSClient : MonoBehaviour
         _client.DataReceived += new EventHandler<DataReceivedEventArgs>(OnDataReceived);
         _client.ConnectionError += new EventHandler<Aws.GameLift.Realtime.Event.ErrorEventArgs>(OnConnectionErrorEvent);
 
-        int UDPListenPort = FindAvailableUDPPort(DEFAULT_UDP_PORT, DEFAULT_UDP_PORT + 20);
+        int UDPListenPort = FindAvailableUDPPort();
         if (UDPListenPort == -1)
         {
             Debug.Log("Unable to find an open UDP listen port");
