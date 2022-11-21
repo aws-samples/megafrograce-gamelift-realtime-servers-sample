@@ -1,4 +1,7 @@
 # megafrogRace-gameLift-realtime-server-sample
+
+## This solution is deprecated. Please see the latest example: https://github.com/aws-samples/amazon-gamesparks-integration-with-gamelift
+
 This repository contains a sample game project using Amazon GameLift and AWS services including AWS Lambda and Amazon Cognito. This is a simple multi-player 2D racing game, but technically and functionally identical to a complete Realtime online game. It serves as an example of architecture and best practices, as well as an implementation, of a game using GameLift Realtime Servers.
 
 # Requirements
